@@ -121,21 +121,25 @@ function renderQuestion() {
 
     app.innerHTML = `
         <div class="card">
-            <div class="top-stats">
-                <div class="lives">${hearts}</div>
-                ${streakHtml}
+            <div class="top-stats" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 10px;">
+                <div class="lives-and-streak" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="lives-container" id="lives-display" style="margin: 0;">
+                        ${'<span class="heart">❤️</span>'.repeat(lives)}${'<span class="heart error">💔</span>'.repeat(3 - lives)}
+                    </div>
+                    ${streakHtml}
+                </div>
+                <div class="timer-pill" id="timer-display" style="margin: 0; padding: 6px 14px; font-size: 1.05rem;">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>${timeLeft}s</span>
+                </div>
             </div>
             <div class="progress-container">
                 <div class="progress-bar" style="width: ${progressPercent}%;"></div>
             </div>
-            <div class="top-bar">
-                <div class="status-bar" style="margin-bottom:0;">
+            <div class="top-bar" style="margin-bottom: 15px;">
+                <div class="status-bar" style="width: 100%; justify-content: space-between; margin-bottom: 0;">
                     <span>Pregunta ${currentQuestionIndex + 1} de ${currentQuestions.length}</span>
-                    <span style="margin-left: 15px;">Puntos: ${score}</span>
-                </div>
-                <div class="timer-pill" id="timer-display">
-                    <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <span>${timeLeft}s</span>
+                    <span>Puntos: ${score}</span>
                 </div>
             </div>
             
@@ -265,7 +269,7 @@ function handleAnswer(e) {
 
     document.querySelector('.status-bar').innerHTML = `
         <span>Pregunta ${currentQuestionIndex + 1} de ${currentQuestions.length}</span>
-        <span style="margin-left: 15px;">Puntos: ${score}</span>
+        <span>Puntos: ${score}</span>
     `;
 
     const feedback = document.getElementById('feedback');
