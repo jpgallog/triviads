@@ -245,6 +245,10 @@ p.subtitle {
   z-index: 1000;
 }
 
+.next-btn:hover {
+  transform: translate(-50%, -2px);
+}
+
 .score-display {
   font-size: 4.5rem;
   font-weight: 800;
@@ -397,3 +401,69 @@ p.subtitle {
 .error-item p { margin-bottom: 5px; color: #333; line-height: 1.4; }
 .error-item strong { color: var(--error); }
 .error-item .correct-ans { color: var(--success); font-weight: 600; }
+
+
+/* Language Switch */
+.lang-switch-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #777;
+  z-index: 10;
+}
+.lang-label {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.lang-label.active {
+  color: var(--meli-blue);
+  font-weight: 800;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: var(--meli-light-blue);
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--meli-light-blue);
+}
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+.slider.round {
+  border-radius: 24px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}

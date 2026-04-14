@@ -1,0 +1,19 @@
+<html><body>
+<div id="app"></div>
+<script>
+window.onerror = function(msg, url, line) {
+  document.body.innerHTML += '<h1 style="color:red">Error: ' + msg + ' at line ' + line + '</h1>';
+};
+</script>
+<script type="module">
+  try {
+    import('./app.js').then(m => {
+       document.body.innerHTML += '<h1 style="color:green">Loaded module success</h1>';
+    }).catch(e => {
+       document.body.innerHTML += '<h1 style="color:red">Error loading module: ' + e.message + '</h1>';
+    });
+  } catch(e) {
+    document.body.innerHTML += '<h1 style="color:red">Try catch error: ' + e.message + '</h1>';
+  }
+</script>
+</body></html>

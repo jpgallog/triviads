@@ -1,13 +1,81 @@
-import { questions } from './questions.js';
+import { questions } from './questions.js?v=2';
 
 const app = document.getElementById('app');
+
+const translations = {
+    es: {
+        title: "TriviAds",
+        subtitle: "Elige tu nivel de dificultad para comenzar el reto.<br/>El tiempo por pregunta varía según el nivel.",
+        facilLabel: "Fácil",
+        medioLabel: "Medio",
+        altoLabel: "Alto",
+        btnFacil: "Nivel Fácil",
+        btnMedio: "Nivel Intermedio",
+        btnDificil: "Nivel Difícil",
+        streak: "Racha",
+        question: "Pregunta",
+        of: "de",
+        points: "Puntos",
+        timeout: "¡Se acabó el tiempo! ⏱️",
+        correct: "¡Correcto!",
+        oops: "¡Oops!",
+        continue: "Continuar",
+        gameOver: "¡Te quedaste sin vidas! 💔 Repasa e inténtalo de nuevo.",
+        master: "¡Impresionante! Has dominado el juego nivel Black. 🚀",
+        goodEffort: "¡Muy buen esfuerzo! Completaste el desafío. 💡",
+        newRecord: "🎉 ¡Nuevo Récord Personal!",
+        review: "📚 Preguntas para repasar:",
+        playAgain: "Jugar de Nuevo",
+        finalEval: "Evaluación Final",
+        pts: "pts",
+        q: "P:",
+        r: "R:"
+    },
+    pt: {
+        title: "TriviAds",
+        subtitle: "Escolha seu nível de dificuldade para começar o desafio.<br/>O tempo por pergunta varia de acordo com o nível.",
+        facilLabel: "Fácil",
+        medioLabel: "Médio",
+        altoLabel: "Alto",
+        btnFacil: "Nível Fácil",
+        btnMedio: "Nível Intermediário",
+        btnDificil: "Nível Difícil",
+        streak: "Sequência",
+        question: "Pergunta",
+        of: "de",
+        points: "Pontos",
+        timeout: "O tempo acabou! ⏱️",
+        correct: "Correto!",
+        oops: "Ops!",
+        continue: "Continuar",
+        gameOver: "Você ficou sem vidas! 💔 Revise e tente novamente.",
+        master: "Impressionante! Você dominou o jogo nível Black. 🚀",
+        goodEffort: "Muito bom esforço! Você completou o desafio. 💡",
+        newRecord: "🎉 Novo Recorde Pessoal!",
+        review: "📚 Perguntas para revisar:",
+        playAgain: "Jogar Novamente",
+        finalEval: "Avaliação Final",
+        pts: "pts",
+        q: "P:",
+        r: "R:"
+    }
+};
+
+window.currentLang = localStorage.getItem('meli_ads_lang') || 'es';
+
+window.setLanguage = function(lang) {
+    window.currentLang = lang;
+    localStorage.setItem('meli_ads_lang', lang);
+    renderStart();
+};
+
 
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let currentDifficulty = null;
 let timerInterval;
-const TIME_LIMIT = 15;
+let TIME_LIMIT = 15;
 let timeLeft = TIME_LIMIT;
 let lives = 3;
 let streak = 0;
@@ -72,23 +140,32 @@ function renderStart() {
     if (hsFacil > 0 || hsIntermedio > 0 || hsDificil > 0) {
         highScoresHtml = `
             <div class="highscores-list" style="display:flex; justify-content:center; gap:10px; font-size:0.85rem; margin-bottom: 20px;">
-                <div class="score-pill" style="color:#00a650; background:#f7f7f7; padding:4px 10px; border-radius:12px; border:1px solid #e1e1e1;">Fácil: <strong>${hsFacil}</strong></div>
-                <div class="score-pill" style="color:#fb8c00; background:#f7f7f7; padding:4px 10px; border-radius:12px; border:1px solid #e1e1e1;">Medio: <strong>${hsIntermedio}</strong></div>
-                <div class="score-pill" style="color:#f23d4f; background:#f7f7f7; padding:4px 10px; border-radius:12px; border:1px solid #e1e1e1;">Alto: <strong>${hsDificil}</strong></div>
+                <div class="score-pill" style="color:#00a650; background:#f7f7f7; padding:4px 10px; border-radius:12px; border:1px solid #e1e1e1;">${translations[window.currentLang].facilLabel}: <strong>${hsFacil}</strong></div>
+                <div class="score-pill" style="color:#fb8c00; background:#f7f7f7; padding:4px 10px; border-radius:12px; border:1px solid #e1e1e1;">${translations[window.currentLang].medioLabel}: <strong>${hsIntermedio}</strong></div>
+                <div class="score-pill" style="color:#f23d4f; background:#f7f7f7; padding:4px 10px; border-radius:12px; border:1px solid #e1e1e1;">${translations[window.currentLang].altoLabel}: <strong>${hsDificil}</strong></div>
             </div>
         `;
     }
 
     app.innerHTML = `
         <div class="card">
+            <div class="lang-switch-container">
+                <span class="lang-label ${window.currentLang === 'es' ? 'active' : ''}" onclick="window.setLanguage('es')">ES</span>
+                <label class="switch">
+                    <input type="checkbox" id="lang-switch" ${window.currentLang === 'pt' ? 'checked' : ''} onchange="window.setLanguage(this.checked ? 'pt' : 'es')">
+                    <span class="slider round"></span>
+                </label>
+                <span class="lang-label ${window.currentLang === 'pt' ? 'active' : ''}" onclick="window.setLanguage('pt')">PT</span>
+            </div>
+
             <img src="logo.png" alt="TriviAds Logo" style="width: 120px; height: 120px; margin: 0 auto 15px; display: block; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));">
-            <h1>TriviAds</h1>
+            <h1>${translations[window.currentLang].title}</h1>
             ${highScoresHtml}
-            <p class="subtitle" style="margin-top: -5px;">Elige tu nivel de dificultad para comenzar el reto.<br/>Tienes 15 segundos por pregunta.</p>
+            <p class="subtitle" style="margin-top: -5px;">${translations[window.currentLang].subtitle}</p>
             <div class="difficulty-container">
-                <button class="diff-btn diff-facil" data-diff="facil">Nivel Fácil</button>
-                <button class="diff-btn diff-intermedio" data-diff="intermedio">Nivel Intermedio</button>
-                <button class="diff-btn diff-dificil" data-diff="dificil">Nivel Difícil</button>
+                <button class="diff-btn diff-facil" data-diff="facil">${translations[window.currentLang].btnFacil}</button>
+                <button class="diff-btn diff-intermedio" data-diff="intermedio">${translations[window.currentLang].btnMedio}</button>
+                <button class="diff-btn diff-dificil" data-diff="dificil">${translations[window.currentLang].btnDificil}</button>
             </div>
         </div>
     `;
@@ -98,7 +175,8 @@ function renderStart() {
         btn.addEventListener('click', (e) => {
             initAudio(); // Initialize audio context on first user gesture
             currentDifficulty = e.target.closest('button').dataset.diff;
-            const filteredQuestions = questions.filter(q => q.difficulty === currentDifficulty);
+            TIME_LIMIT = currentDifficulty === 'facil' ? 15 : currentDifficulty === 'intermedio' ? 20 : 25;
+            const filteredQuestions = questions[window.currentLang].filter(q => q.difficulty === currentDifficulty);
             currentQuestions = shuffle(filteredQuestions).slice(0, 10);
             currentQuestionIndex = 0;
             score = 0;
@@ -116,7 +194,7 @@ function renderQuestion() {
     const question = currentQuestions[currentQuestionIndex];
     
     const hearts = '❤️'.repeat(lives) + '🖤'.repeat(3 - lives);
-    const streakHtml = streak >= 3 ? `<span class="streak">🔥 Racha x${streak}</span>` : '';
+    const streakHtml = streak >= 3 ? `<span class="streak">🔥 ${translations[window.currentLang].streak} x${streak}</span>` : '';
     const progressPercent = (currentQuestionIndex / currentQuestions.length) * 100;
 
     app.innerHTML = `
@@ -138,8 +216,8 @@ function renderQuestion() {
             </div>
             <div class="top-bar" style="margin-bottom: 15px;">
                 <div class="status-bar" style="width: 100%; justify-content: space-between; margin-bottom: 0;">
-                    <span>Pregunta ${currentQuestionIndex + 1} de ${currentQuestions.length}</span>
-                    <span>Puntos: ${score}</span>
+                    <span>${translations[window.currentLang].question} ${currentQuestionIndex + 1} ${translations[window.currentLang].of} ${currentQuestions.length}</span>
+                    <span>${translations[window.currentLang].points}: ${score}</span>
                 </div>
             </div>
             
@@ -151,7 +229,7 @@ function renderQuestion() {
             </div>
             <div id="feedback" style="display:none;">
                 <div class="explanation" id="explanation"></div>
-                <button class="btn next-btn" id="next-btn">Continuar</button>
+                <button class="btn next-btn" id="next-btn">${translations[window.currentLang].continue}</button>
             </div>
         </div>
     `;
@@ -207,7 +285,7 @@ function handleTimeout() {
     const explanation = document.getElementById('explanation');
     const nextBtn = document.getElementById('next-btn');
     
-    explanation.innerHTML = `<strong>¡Se acabó el tiempo! ⏱️</strong><br/> ${question.explanation}`;
+    explanation.innerHTML = `<strong>${translations[window.currentLang].timeout}</strong><br/> ${question.explanation}`;
     explanation.style.borderLeftColor = 'var(--error)';
     
     feedback.style.display = 'block';
@@ -268,15 +346,15 @@ function handleAnswer(e) {
     }
 
     document.querySelector('.status-bar').innerHTML = `
-        <span>Pregunta ${currentQuestionIndex + 1} de ${currentQuestions.length}</span>
-        <span>Puntos: ${score}</span>
+        <span>${translations[window.currentLang].question} ${currentQuestionIndex + 1} ${translations[window.currentLang].of} ${currentQuestions.length}</span>
+        <span>${translations[window.currentLang].points}: ${score}</span>
     `;
 
     const feedback = document.getElementById('feedback');
     const explanation = document.getElementById('explanation');
     const nextBtn = document.getElementById('next-btn');
     
-    explanation.innerHTML = `<strong>${isCorrect ? '¡Correcto!' : '¡Oops!'}</strong><br/> ${question.explanation}`;
+    explanation.innerHTML = `<strong>${isCorrect ? translations[window.currentLang].correct : translations[window.currentLang].oops}</strong><br/> ${question.explanation}`;
     explanation.style.borderLeftColor = isCorrect ? 'var(--success)' : 'var(--error)';
     feedback.style.display = 'block';
 
@@ -299,26 +377,26 @@ function renderResult(isGameOver = false) {
     
     let message = "";
     if (isGameOver) {
-        message = "¡Te quedaste sin vidas! 💔 Repasa e inténtalo de nuevo.";
+        message = translations[window.currentLang].gameOver;
     } else if (score >= 1000) {
-        message = "¡Impresionante! Has dominado el juego nivel Black. 🚀";
+        message = translations[window.currentLang].master;
         triggerMassiveConfetti();
     } else {
-        message = "¡Muy buen esfuerzo! Completaste el desafío. 💡";
+        message = translations[window.currentLang].goodEffort;
         triggerMassiveConfetti();
     }
 
-    const newRecordHtml = isNewHigh && score > 0 ? `<div class="high-score-badge" style="background:#fff159; border-color:#d4c74a;">🎉 ¡Nuevo Récord Personal!</div>` : '';
+    const newRecordHtml = isNewHigh && score > 0 ? `<div class="high-score-badge" style="background:#fff159; border-color:#d4c74a;">${translations[window.currentLang].newRecord}</div>` : '';
 
     let errorSummaryHtml = '';
     if (errorsList.length > 0) {
         errorSummaryHtml = `
             <div class="error-summary">
-                <h3 style="font-size:1.05rem; color:#444; margin-bottom:12px;">📚 Preguntas para repasar:</h3>
+                <h3 style="font-size:1.05rem; color:#444; margin-bottom:12px;">${translations[window.currentLang].review}</h3>
                 ${errorsList.map(e => `
                     <div class="error-item">
-                        <p><strong>P:</strong> ${e.q}</p>
-                        <p><strong>R:</strong> <span class="correct-ans">${e.correct}</span></p>
+                        <p><strong>${translations[window.currentLang].q}</strong> ${e.q}</p>
+                        <p><strong>${translations[window.currentLang].r}</strong> <span class="correct-ans">${e.correct}</span></p>
                     </div>
                 `).join('')}
             </div>
@@ -327,12 +405,12 @@ function renderResult(isGameOver = false) {
 
     app.innerHTML = `
         <div class="card">
-            <h1>Evaluación Final</h1>
+            <h1>${translations[window.currentLang].finalEval}</h1>
             ${newRecordHtml}
-            <div class="score-display" style="font-size:3.5rem;">${score} <span style="font-size: 1.2rem; color:#888;">pts</span></div>
+            <div class="score-display" style="font-size:3.5rem;">${score} <span style="font-size: 1.2rem; color:#888;">${translations[window.currentLang].pts}</span></div>
             <p class="score-message">${message}</p>
             ${errorSummaryHtml}
-            <button class="btn" id="restart-btn" style="margin-top: 20px;">Jugar de Nuevo</button>
+            <button class="btn" id="restart-btn" style="margin-top: 20px;">${translations[window.currentLang].playAgain}</button>
         </div>
     `;
 

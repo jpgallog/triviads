@@ -1,4 +1,26 @@
-export const questions = {
+import os
+import json
+
+base_dir = "/Users/jpgallog/Documents/Antigravity/triviads"
+
+# 1. STYLE.CSS
+with open(os.path.join(base_dir, "style.css"), "a") as f:
+    f.write("\n\n/* Language Switch */\n")
+    f.write(".lang-switch-container {\n  position: absolute;\n  top: 20px;\n  right: 20px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  font-weight: 600;\n  font-size: 0.9rem;\n  color: #777;\n  z-index: 10;\n}\n")
+    f.write(".lang-label {\n  cursor: pointer;\n  transition: color 0.3s;\n}\n")
+    f.write(".lang-label.active {\n  color: var(--meli-blue);\n  font-weight: 800;\n}\n")
+    f.write(".switch {\n  position: relative;\n  display: inline-block;\n  width: 44px;\n  height: 24px;\n}\n")
+    f.write(".switch input { \n  opacity: 0;\n  width: 0;\n  height: 0;\n}\n")
+    f.write(".slider {\n  position: absolute;\n  cursor: pointer;\n  top: 0; left: 0; right: 0; bottom: 0;\n  background-color: #ccc;\n  transition: .4s;\n}\n")
+    f.write(".slider:before {\n  position: absolute;\n  content: \"\";\n  height: 18px;\n  width: 18px;\n  left: 3px;\n  bottom: 3px;\n  background-color: white;\n  transition: .4s;\n}\n")
+    f.write("input:checked + .slider {\n  background-color: var(--meli-light-blue);\n}\n")
+    f.write("input:focus + .slider {\n  box-shadow: 0 0 1px var(--meli-light-blue);\n}\n")
+    f.write("input:checked + .slider:before {\n  transform: translateX(20px);\n}\n")
+    f.write(".slider.round {\n  border-radius: 24px;\n}\n")
+    f.write(".slider.round:before {\n  border-radius: 50%;\n}\n")
+
+# 2. QUESTIONS.JS
+q_js = """export const questions = {
   es: [
     { question: "¿Qué métrica indica el costo promedio que pagas por cada clic en tu anuncio?", options: ["CPM", "CTR", "CPC", "ACOS"], correctAnswer: 2, explanation: "El CPC (Costo Por Clic) se calcula dividiendo la inversión total por el número de clics.", difficulty: "facil" },
     { question: "Para medir posicionamiento de marca y exposición, ¿qué métrica debe optimizarse?", options: ["CPA", "CPM", "CPC", "CPL"], correctAnswer: 1, explanation: "El CPM (Costo por Mil Impresiones) te ayuda a maximizar tu visibilidad a gran escala en estrategias de branding.", difficulty: "facil" },
@@ -65,6 +87,138 @@ export const questions = {
     { question: "A vantagem dos Dados Primários ou (First-Party Data) da plataforma oficial no controle atual frente o concorrente eletrônico consiste em...", options: ["Monitoramento profundo digital através dos GPS satélite ou registros SMS dos provedores web. ", "Bases rastreáveis de instituições oficiais e bancárias com impostos inclusos locais", "Segmentações do comprador usando registros das interações online da rede de compras verídicas sem redes avulsas. ", "Manipulações na leitura orgânica de outros sites"], correctAnswer: 2, explanation: "A certeza é garantida por monitorizar cada visualização sem usar terceiros na validação algorítmica ou cookes que decaem facilmente. ", difficulty: "dificil" },
     { question: "Quando alguém começa um projeto de Calçados da sua Categoria, por qual razão estratégica bloquearia a Expressão Exata 'Usados' em Palavras-chave Negativas num Painel de Publicidade?", options: ["Eliminar de fato as perdas de lucro num comprador do âmbito virtual buscando em sites secundários ", "Destinar envios dos caminhões à logística no exterior de forma imediata à alfandega", "Para não contrariar regras ou ser suspenso devido a pirataria ou de um objeto clandestino regional", "Alterar as planilhas bancárias ao sistema analítico. "], correctAnswer: 0, explanation: "Filtrar por palavras limitadoras ajuda não só ao usuário não procurar em anúncios inúteis do anunciante; pois protege assim do encerramento das vendas online ", difficulty: "dificil" },
     { question: "Um sistema algorítmico robusto do Pacing usado perante um planejamento programático da audiência de Mídia protege ativamente contra o quê? ", options: ["Paralisia forçada no banco digital na confirmação inicial sobre faturas financeiras ao exterior", "Gasto de dados ou memória virtual numa internet fraca ou de pacotes lentos ao cliente ", "Investimento perdido, já que os dispêndios orçamentais daquele limite durarão o dia inteiro para os demais públicos na jornada online e evitar o esgotamento precoce diário ", "Vírus na segurança que simulam as métricas das atividades não humanas, excluindo endereços de Internet local fraudulenta"], correctAnswer: 2, explanation: "É a ferramenta preventiva sobre o saldo; onde sem ele, seu dinheiro na campanha matutina é consumido em questão de 60 minutos ou as primeiras horas.", difficulty: "dificil" },
-    { question: "Como métrica e valor no contexto dos relatórios, o sentido ou entendimento puro de 'Conversão Incremental' aponta essencialmente à: ", options: ["Análise de compras e consumo trimestral onde calculam lucros prováveis perante grandes sazonalidades", "Representação dos ganhos ou interações ocorridas isoladamente graças ao funcionamento isolado nas vendas publicitárias e subtraindo do número originário de buscas limpas e livres. ", "Soma os acréscimos num volume total num mês na prateleira alheia, transferindo os clientes à lojas digitais regionais concorrente em outros links de forma massificada.", "Expansão imediata orgânica gerando um imposto automático adicional aplicado à vendedores locais perante centros de estoques grátis.  "], correctAnswer: 1, explanation: "No final a Conversão Incremental traduz a pergunta: 'Estes clientes que gastaram online, eles ainda efetuariam suas transações na ausência do Ad publicando o cartaz web?'", difficulty: "dificil" }
+    { question: "Como métrica e valor no contexto dos relatórios, o sentido ou entendimento puro de 'Conversão Incremental' aponta essencialmente à: ", options: ["Análise de compras e consumo trimestral onde calculam lucros prováveis perante grandes sazonalidades", "Representação dos ganhos ou interações ocorridas isoladamente graças ao funcionamento isolado nas vendas publicitárias e subtraindo do número originário de buscas limpas e livres. ", "Soma os acréscimos num volume total num mês na prateleira alheia, transferindo os clientes à lojas digitais regionais concorrente em outros links de forma massificada.", "Expansão imediata orgânica gerando um imposto automático adicional aplicado à vendedores locais perante centros de estoques grátis.  "], correctAnswer: 1, explanation: "No final a Conversão Incremental traduz a pergunta: \"Estes clientes que gastaram online, eles ainda efetuariam suas transações na ausência do Ad publicando o cartaz web?\"", difficulty: "dificil" }
   ]
 };
+"""
+with open(os.path.join(base_dir, "questions.js"), "w") as f:
+    f.write(q_js)
+
+# 3. APP.JS
+with open(os.path.join(base_dir, "app.js"), "r") as f:
+    app_js = f.read()
+
+translations_obj = """
+const translations = {
+    es: {
+        title: "TriviAds",
+        subtitle: "Elige tu nivel de dificultad para comenzar el reto.<br/>Tienes 15 segundos por pregunta.",
+        facilLabel: "Fácil",
+        medioLabel: "Medio",
+        altoLabel: "Alto",
+        btnFacil: "Nivel Fácil",
+        btnMedio: "Nivel Intermedio",
+        btnDificil: "Nivel Difícil",
+        streak: "Racha",
+        question: "Pregunta",
+        of: "de",
+        points: "Puntos",
+        timeout: "¡Se acabó el tiempo! ⏱️",
+        correct: "¡Correcto!",
+        oops: "¡Oops!",
+        continue: "Continuar",
+        gameOver: "¡Te quedaste sin vidas! 💔 Repasa e inténtalo de nuevo.",
+        master: "¡Impresionante! Has dominado el juego nivel Black. 🚀",
+        goodEffort: "¡Muy buen esfuerzo! Completaste el desafío. 💡",
+        newRecord: "🎉 ¡Nuevo Récord Personal!",
+        review: "📚 Preguntas para repasar:",
+        playAgain: "Jugar de Nuevo",
+        finalEval: "Evaluación Final",
+        pts: "pts",
+        q: "P:",
+        r: "R:"
+    },
+    pt: {
+        title: "TriviAds",
+        subtitle: "Escolha seu nível de dificuldade para começar o desafio.<br/>Você tem 15 segundos por pergunta.",
+        facilLabel: "Fácil",
+        medioLabel: "Médio",
+        altoLabel: "Alto",
+        btnFacil: "Nível Fácil",
+        btnMedio: "Nível Intermediário",
+        btnDificil: "Nível Difícil",
+        streak: "Sequência",
+        question: "Pergunta",
+        of: "de",
+        points: "Pontos",
+        timeout: "O tempo acabou! ⏱️",
+        correct: "Correto!",
+        oops: "Ops!",
+        continue: "Continuar",
+        gameOver: "Você ficou sem vidas! 💔 Revise e tente novamente.",
+        master: "Impressionante! Você dominou o jogo nível Black. 🚀",
+        goodEffort: "Muito bom esforço! Você completou o desafio. 💡",
+        newRecord: "🎉 Novo Recorde Pessoal!",
+        review: "📚 Perguntas para revisar:",
+        playAgain: "Jogar Novamente",
+        finalEval: "Avaliação Final",
+        pts: "pts",
+        q: "P:",
+        r: "R:"
+    }
+};
+
+window.currentLang = localStorage.getItem('meli_ads_lang') || 'es';
+
+window.setLanguage = function(lang) {
+    window.currentLang = lang;
+    localStorage.setItem('meli_ads_lang', lang);
+    renderStart();
+};
+"""
+
+app_js = app_js.replace("const app = document.getElementById('app');", "const app = document.getElementById('app');\n" + translations_obj)
+
+# Update texts
+app_js = app_js.replace("questions.filter(q => q.difficulty === currentDifficulty);", "questions[window.currentLang].filter(q => q.difficulty === currentDifficulty);")
+
+app_js = app_js.replace("Fácil: <strong>${hsFacil}</strong>", "${translations[window.currentLang].facilLabel}: <strong>${hsFacil}</strong>")
+app_js = app_js.replace("Medio: <strong>${hsIntermedio}</strong>", "${translations[window.currentLang].medioLabel}: <strong>${hsIntermedio}</strong>")
+app_js = app_js.replace("Alto: <strong>${hsDificil}</strong>", "${translations[window.currentLang].altoLabel}: <strong>${hsDificil}</strong>")
+
+app_js = app_js.replace("<h1>TriviAds</h1>", "<h1>${translations[window.currentLang].title}</h1>")
+app_js = app_js.replace("Elige tu nivel de dificultad para comenzar el reto.<br/>Tienes 15 segundos por pregunta.", "${translations[window.currentLang].subtitle}")
+app_js = app_js.replace("Nivel Fácil", "${translations[window.currentLang].btnFacil}")
+app_js = app_js.replace("Nivel Intermedio", "${translations[window.currentLang].btnMedio}")
+app_js = app_js.replace("Nivel Difícil", "${translations[window.currentLang].btnDificil}")
+
+app_js = app_js.replace("🔥 Racha x${streak}", "🔥 ${translations[window.currentLang].streak} x${streak}")
+app_js = app_js.replace("Pregunta ${currentQuestionIndex + 1} de ${currentQuestions.length}", "${translations[window.currentLang].question} ${currentQuestionIndex + 1} ${translations[window.currentLang].of} ${currentQuestions.length}")
+app_js = app_js.replace("Puntos: ${score}", "${translations[window.currentLang].points}: ${score}")
+
+app_js = app_js.replace("<strong>¡Se acabó el tiempo! ⏱️</strong>", "<strong>${translations[window.currentLang].timeout}</strong>")
+app_js = app_js.replace("Continuar", "${translations[window.currentLang].continue}")
+
+app_js = app_js.replace("<strong>${isCorrect ? '¡Correcto!' : '¡Oops!'}</strong>", "<strong>${isCorrect ? translations[window.currentLang].correct : translations[window.currentLang].oops}</strong>")
+
+app_js = app_js.replace("message = \"¡Te quedaste sin vidas! 💔 Repasa e inténtalo de nuevo.\";", "message = translations[window.currentLang].gameOver;")
+app_js = app_js.replace("message = \"¡Impresionante! Has dominado el juego nivel Black. 🚀\";", "message = translations[window.currentLang].master;")
+app_js = app_js.replace("message = \"¡Muy buen esfuerzo! Completaste el desafío. 💡\";", "message = translations[window.currentLang].goodEffort;")
+
+app_js = app_js.replace("🎉 ¡Nuevo Récord Personal!", "${translations[window.currentLang].newRecord}")
+app_js = app_js.replace("📚 Preguntas para repasar:", "${translations[window.currentLang].review}")
+
+app_js = app_js.replace("<strong>P:</strong>", "<strong>${translations[window.currentLang].q}</strong>")
+app_js = app_js.replace("<strong>R:</strong>", "<strong>${translations[window.currentLang].r}</strong>")
+
+app_js = app_js.replace("<h1>Evaluación Final</h1>", "<h1>${translations[window.currentLang].finalEval}</h1>")
+app_js = app_js.replace("<span style=\"font-size: 1.2rem; color:#888;\">pts</span>", "<span style=\"font-size: 1.2rem; color:#888;\">${translations[window.currentLang].pts}</span>")
+app_js = app_js.replace("Jugar de Nuevo", "${translations[window.currentLang].playAgain}")
+
+# Add the language switch to renderStart HTML
+switch_html = """
+            <div class="lang-switch-container">
+                <span class="lang-label ${window.currentLang === 'es' ? 'active' : ''}" onclick="window.setLanguage('es')">ES</span>
+                <label class="switch">
+                    <input type="checkbox" id="lang-switch" ${window.currentLang === 'pt' ? 'checked' : ''} onchange="window.setLanguage(this.checked ? 'pt' : 'es')">
+                    <span class="slider round"></span>
+                </label>
+                <span class="lang-label ${window.currentLang === 'pt' ? 'active' : ''}" onclick="window.setLanguage('pt')">PT</span>
+            </div>
+"""
+app_js = app_js.replace("<div class=\"card\">", "<div class=\"card\">" + switch_html, 1)
+
+with open(os.path.join(base_dir, "app.js"), "w") as f:
+    f.write(app_js)
+
+print("Done patching.")
